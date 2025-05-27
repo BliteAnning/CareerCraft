@@ -13,6 +13,7 @@ export const StoredProvider = ({ children }) => {
     const [aiResponse, setAiResponse] = useState("");
     const [token, setToken] = useState(() => localStorage.getItem("token") || "");
     const [myCareer, setMyCareer] = useState("")
+    const [careerDetails, setCareerDetails] = useState("")
 
     // Fetch all questions from backend
     const fetchQuestions = async () => {
@@ -75,6 +76,20 @@ export const StoredProvider = ({ children }) => {
         }
     }
 
+    const getCareerSummary = async () => {
+        const userId = localStorage.getItem("userId");
+
+        try {
+            const response = await axiosInstance.post('/roadmap/generate', {
+                userId
+            });
+            console.log('Career summary fetched successfully:', response.data.roadmap);
+            setCareerDetails(response.data.roadmap);
+        } catch (error) {
+            console.error('Error fetching career summary:', error);
+        }
+    }
+
     return (
         <StoredContext.Provider value={{
             questions,
@@ -88,7 +103,9 @@ export const StoredProvider = ({ children }) => {
             setToken,
             setAnswers,
             myCareer,
-            getSuggestion
+            getSuggestion,
+            getCareerSummary,
+            careerDetails,
         }}>
             {children}
         </StoredContext.Provider>
