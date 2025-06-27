@@ -1,7 +1,7 @@
 import { Button, IconButton, Avatar } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import logo from '../assets/CcLogo.png'
 import { useStored } from "../context/StoredContext";
+
 
 const Navbar = ({ setShowLogin, showLogin }) => {
     const { token, setToken } = useStored();
@@ -13,8 +13,8 @@ const Navbar = ({ setShowLogin, showLogin }) => {
     }
 
     return (
-        <nav className="p-4 flex text-gray-800 justify-between items-center">
-            <div><img src="" alt="img" /></div>
+        <nav className="p-4 flex bg-[#000000] justify-between items-center">
+            <img src={logo} alt="img" className="object-cover h-20 w-28"/>
             <div>
                 {token ? (
                     <IconButton onClick={logout}>

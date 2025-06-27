@@ -65,7 +65,7 @@ const Login = ({ setShowLogin }) => {
         }
     }
     return (
-        <div className="z-[1] fixed flex flex-col h-screen justify-center items-center w-full bg-[rgba(24,22,22,0.5)]">
+        <div className="z-[1] fixed flex flex-col h-96 justify-center items-center w-full bg-[rgba(24,22,22,0.5)]">
             <form action="" className="bg-white overflow-y-scroll  shadow-2xl rounded-2xl max-w-lg w-full p-8" onSubmit={onLogin}>
                 <div className="flex justify-between items-center mb-4">
                     <h2 className='font-bold text-purple-500'>{currState}</h2>

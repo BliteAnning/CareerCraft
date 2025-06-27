@@ -31,7 +31,7 @@ function parseAiResponse(aiResponse) {
 }
 
 const Response = () => {
-    const { aiResponse } = useStored();
+    const { aiResponse, setCareerId } = useStored();
 
     const handleAccepted = async () => {
         try{
@@ -40,7 +40,9 @@ const Response = () => {
                 suggestion: parseAiResponse(aiResponse).mainCareer
         });
         if (response.data.success) {
+            localStorage.setItem("careerId", response.data._id)
             console.log("Career path accepted:", response.data);
+            
             alert("Career path accepted successfully!");
         } else {
             alert("Failed to accept career path.");

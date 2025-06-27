@@ -4,12 +4,12 @@ import illustration from "../assets/find_your_type.svg"
 import illustration1 from "../assets/get_insights.svg"
 import {useNavigate} from "react-router"
 
-const Questionnaire = () => {
+const Questionnaire = ({showDrawer}) => {
 
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen">
+        <div className={`min-h-screen ${showDrawer ? "transition-all duration-300 md:ml-64" : ""}`}>
             {/*first section*/}
             <div className="bg-purple-200 flex gap-20 flex-col min-h-96 sm:flex-row m-10 rounded-xl p-6">
                 <div className="flex sm:w-1/2 flex-col gap-6">

@@ -21,7 +21,7 @@ const formatRoadmap = (roadmap) => {
             // Push previous phase and its bullets
             if (currentPhase) {
                 elements.push(
-                    <div key={currentPhase} className="mt-6 mb-2 font-bold text-lg text-purple-200">{currentPhase}</div>
+                    <div key={currentPhase} className="mt-6 mb-2 font-bold text-lg text-purple-600">{currentPhase}</div>
                 );
                 if (currentBullets.length > 0) {
                     elements.push(
@@ -72,7 +72,7 @@ const formatRoadmap = (roadmap) => {
 };
 
 const Roadmap = () => {
-    const { getSuggestion, myCareer, getCareerSummary, careerDetails } = useStored();
+    const { getSuggestion, myCareer, token, loading, getCareerSummary, careerDetails } = useStored();
 
     useEffect(() => {
         getSuggestion();
@@ -80,19 +80,24 @@ const Roadmap = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-emerald-950">
+        <div className="min-h-screen bg-black">
             <div>
-                <h1 className="text-3xl font-extrabold text-white text-center">Explore your Roadmap</h1>
+                <h1 className="text-3xl font-extrabold text-purple-700 text-center">Explore your Roadmap</h1>
                 <p className="text-lg font-light text-white text-center mb-10">
                     Discover the steps to achieve your career goals with our personalized roadmap.
                 </p>
-                <h1 className="text-2xl font-bold text-white text-center">{myCareer}</h1>
-                <div className="bg-emerald-900 rounded-xl p-6 mt-6 max-w-2xl mx-auto shadow-lg">
-                    {careerDetails
-                        ? formatRoadmap(careerDetails)
-                        : <div className="text-white text-center">No roadmap generated yet.</div>
+                <h1 className="text-3xl font-bold text-white text-center">{myCareer}</h1>
+                { token ? <div className="bg-black rounded-xl p-6 mt-6 max-w-2xl mx-auto shadow-lg">
+                    {loading
+                        ? <div className="animate-spin rounded-full items-center justify-center h-12 w-12 border-t-7 border-purple-600 border-solid"></div>
+                        : formatRoadmap(careerDetails)
                     }
+                    
+                </div>:
+                <div className="text-center text-white items-center justify-center font-light text-3xl">Please Login or register to view your career summary and Roadmap. 
+                    If you are a new user, register and take your questionnaire to view your roadmap
                 </div>
+                }
             </div>
         </div>
     );
