@@ -117,7 +117,7 @@ const Resume = () => {
                         </label>
 
                         <button type="submit"
-                            className="border bg-white text-xl text-black font-bold rounded-xl p-4"
+                            className="border bg-white text-xl text-black font-extralight rounded-xl p-4"
                             disabled={!selectedFile}
                         >
                             {generating ? "Analyzing resume..." : "Analyze Resume"}

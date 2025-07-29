@@ -73,6 +73,7 @@ const formatRoadmap = (roadmap) => {
 
 const Roadmap = () => {
     const { getSuggestion, myCareer, token, loading, getCareerSummary, careerDetails } = useStored();
+    const careerId = localStorage.getItem("careerId");
 
     useEffect(() => {
         getSuggestion();
@@ -86,18 +87,34 @@ const Roadmap = () => {
                 <p className="text-lg font-light text-white text-center mb-10">
                     Discover the steps to achieve your career goals with our personalized roadmap.
                 </p>
-                <h1 className="text-3xl font-bold text-white text-center">{myCareer}</h1>
-                { token ? <div className="bg-black rounded-xl p-6 mt-6 max-w-2xl mx-auto shadow-lg">
-                    {loading
-                        ? <div className="animate-spin rounded-full items-center justify-center h-12 w-12 border-t-7 border-purple-600 border-solid"></div>
-                        : formatRoadmap(careerDetails)
-                    }
-                    
-                </div>:
-                <div className="text-center text-white items-center justify-center font-light text-3xl">Please Login or register to view your career summary and Roadmap. 
-                    If you are a new user, register and take your questionnaire to view your roadmap
-                </div>
-                }
+                {careerId ? (
+                    <>
+                        <h1 className="text-3xl font-bold text-white text-center">{myCareer}</h1>
+                        {token ? (
+                            <div className="bg-black rounded-xl p-6 mt-6 max-w-2xl mx-auto shadow-lg">
+                                {loading ? (
+                                    <div className="animate-spin rounded-full items-center justify-center h-12 w-12 border-t-7 border-purple-600 border-solid"></div>
+                                ) : (
+                                    formatRoadmap(careerDetails)
+                                )}
+                            </div>
+                        ) : (
+                            <div className="text-center text-white items-center justify-center font-light text-3xl">
+                                Please Login or register to view your career summary and Roadmap. <br />
+                                If you are a new user, register and take your questionnaire to view your roadmap.
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <div>
+                        <h1 className="text-3xl font-bold text-white text-center">
+                            Please answer the questionnaire to determine your perfect career fit
+                        </h1>
+                        <p className="text-lg font-light text-white text-center mb-10">
+                            Once you complete the questionnaire, you will receive a personalized roadmap tailored to your career aspirations.
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );

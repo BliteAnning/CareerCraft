@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useStored } from '../context/StoredContext'
 import axiosInstance from '../axiosInstance';
+import toast from 'react-hot-toast';
 
 
 const Login = ({ setShowLogin }) => {
@@ -10,8 +11,7 @@ const Login = ({ setShowLogin }) => {
 
     const [currState, setCurrState] = useState("Login")
     const [data, setData] = useState({
-        first_name: "",
-        last_name: "",
+        full_name: "",
         date_of_birth: "",
         country: "",
         email: "",
@@ -43,8 +43,8 @@ const Login = ({ setShowLogin }) => {
         else {
             newUrl += "/register"
         }
-        try {
-            const response = await axiosInstance.post(newUrl, data)
+        
+        const response = await axiosInstance.post(newUrl, data)
 
             if (response.data.success) {
                 setToken(response.data.token);
@@ -52,30 +52,30 @@ const Login = ({ setShowLogin }) => {
 
                 const decoded = parseJwt(response.data.token);
                 localStorage.setItem("userId", decoded.id)
+                toast.success("Login successful"); // Show success notification
                 console.log("registration/login successful");
+                setTimeout(() => {
                 window.location.reload();
+                }, 1000)
+                
                 setShowLogin(false)
             }
             else {
                 alert(response.data.message);
             }
-        } catch (err) {
-            alert("Login failed please try again");
-            console.error(err);
-        }
+       
     }
     return (
-        <div className="z-[1] fixed flex flex-col h-96 justify-center items-center w-full bg-[rgba(24,22,22,0.5)]">
-            <form action="" className="bg-white overflow-y-scroll  shadow-2xl rounded-2xl max-w-lg w-full p-8" onSubmit={onLogin}>
+        <div className="z-[2] fixed  h-screen place-items-center w-full bg-[rgba(24,22,22,0.5)]">
+            <form action="" className="bg-white  shadow-2xl rounded-2xl max-w-lg w-full p-8" onSubmit={onLogin}>
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className='font-bold text-purple-500'>{currState}</h2>
+                    <h2 className='font-bold text-purple-500'>{currState === 'Login' ? 'Login into your account':'Sign Up to get started with CareerCraft'} </h2>
                     <img onClick={() => setShowLogin(false)} src="" alt="" />
                 </div>
                 <div className="flex flex-col gap-4 mb-4">
                     
                     {currState === "Login" ? <></> : <div className='flex flex-col gap-4'>
-                        <input className='border p-2 rounded' name="first_name" onChange={changeHandler} value={data.first_name} type="text" placeholder="Your first name" required />
-                        <input className='border p-2 rounded' name="last_name" onChange={changeHandler} value={data.last_name} type="text" placeholder="Your last name" required />
+                        <input className='border p-2 rounded' name="full_name" onChange={changeHandler} value={data.full_name} type="text" placeholder="Your full name" required />
                         <input className='border p-2 rounded' name="date_of_birth" onChange={changeHandler} value={data.date_of_birth} type="date" placeholder="Your date of birth" required />
                         <input className='border p-2 rounded' name="country" onChange={changeHandler} value={data.country} type="text" placeholder="Your country" required />
                     </div>}

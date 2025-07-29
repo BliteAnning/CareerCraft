@@ -12,6 +12,10 @@ import Login from './components/Login'
 import Roadmap from './pages/roadmap'
 import Resume from './pages/resume'
 import Resource from './pages/resources'
+import Contact from './pages/contact'
+import { ToastBar, Toaster } from 'react-hot-toast'
+import Quiz from './pages/quiz'
+import Qresults from './pages/Qresults'
 
 function App() {
   const [showLogin, setShowLogin] = useState(false)
@@ -19,7 +23,7 @@ function App() {
 
   return (
     <>
-      <Navbar setShowLogin={setShowLogin} showLogin={showLogin} />
+      <Navbar setShowLogin={setShowLogin} showLogin={showLogin} setShowDrawer={setShowDrawer} showDrawer={showDrawer}/>
       {showLogin ? <Login setShowLogin={setShowLogin} /> : null}
       <SecondNavbar showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
       <Routes>
@@ -30,8 +34,12 @@ function App() {
         <Route path="/roadmap" showDrawer={showDrawer} setShowDrawer={setShowDrawer} element={<Roadmap />} />
         <Route path="/resume" showDrawer={showDrawer} setShowDrawer={setShowDrawer} element={<Resume />} />
         <Route path="/resources" showDrawer={showDrawer} setShowDrawer={setShowDrawer} element={<Resource />} />
+        <Route path="/contact" element={<Contact/>}/>
+        <Route path='/quiz' element={<Quiz/>}/>
+        <Route path='/qresult' element={<Qresults/>}/>
       </Routes>
       <Footer />
+      <Toaster/>
     </>
   )
 }

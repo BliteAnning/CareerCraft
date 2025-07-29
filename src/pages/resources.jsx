@@ -99,11 +99,11 @@ const Resource = () => {
     const { intro, cards } = parseLinksText(linksText);
 
     return (
-        <div className="p-8">
-            <div className="flex justify-between items-center mb-6">
+        <div className="p-8 min-h-96">
+            <div className="flex justify-between  items-center mb-6">
                 <h2 className="text-2xl font-bold">Career Resources</h2>
                 <button
-                    className="px-4 py-2 bg-purple-700 text-white rounded-lg font-semibold shadow hover:bg-purple-800 transition"
+                    className="px-4 py-2 bg-white rounded-lg font-semibold shadow hover:bg-gray-600 transition"
                     onClick={() => setShowVideos((prev) => !prev)}
                 >
                     {showVideos ? "Show Articles & PDFs" : "Show Videos"}

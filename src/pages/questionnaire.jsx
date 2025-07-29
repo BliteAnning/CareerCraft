@@ -5,7 +5,7 @@ import illustration1 from "../assets/get_insights.svg"
 import {useNavigate} from "react-router"
 
 const Questionnaire = ({showDrawer}) => {
-
+    const userId = localStorage.getItem("userId");
     const navigate = useNavigate();
 
     return (
@@ -29,7 +29,7 @@ const Questionnaire = ({showDrawer}) => {
                                 border: '2px solid #8e24aa', // violet purple
                             },
                         }}
-                        onClick={()=> navigate('/questions')}>
+                        onClick={()=> userId? navigate('/questions'): alert("Please sign up to access the questionnaire")}>
                         Start Questionnaire
                     </Button>
 

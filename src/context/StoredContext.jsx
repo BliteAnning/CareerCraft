@@ -150,7 +150,6 @@ export const StoredProvider = ({ children }) => {
             loading,
             fetchQuestions,
             aiResponse,
-            setLoading,
             submitAnswers,
             token,
             setCareerId,
@@ -164,7 +163,6 @@ export const StoredProvider = ({ children }) => {
             getResources,
             resources,
             resumeAnalyzer,
-            loading,
             setLoading
         }}>
             {children}
