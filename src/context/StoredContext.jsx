@@ -21,9 +21,10 @@ export const StoredProvider = ({ children }) => {
     // Fetch all questions from backend
     const fetchQuestions = async () => {
         setLoading(true);
+        const url = import.meta.env.VITE_API_URL;
         try {
             if (token) {
-                const response = await fetch('http://localhost:4000/api/questionnaire/questions');
+                const response = await fetch(url + '/api/questionnaire/questions');
 
 
                 if (!response.ok) throw new Error('Network response was not ok');
@@ -121,7 +122,7 @@ export const StoredProvider = ({ children }) => {
             setResumeRemarks(response.data.remarks);
             return response.data.remarks;
         } catch (error) {
-            console.error("Error analyzing resume:", error);
+            console.log("Error analyzing resume:", error);
             setResumeRemarks("Failed to analyze resume.");
             throw error;
         }

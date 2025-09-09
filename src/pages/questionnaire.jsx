@@ -13,8 +13,8 @@ const Questionnaire = ({showDrawer}) => {
             {/*first section*/}
             <div className="bg-purple-200 flex gap-20 flex-col min-h-96 sm:flex-row m-10 rounded-xl p-6">
                 <div className="flex sm:w-1/2 flex-col gap-6">
-                    <h1 className="text-3xl font-extrabold ">Welcome to <span className="text-green-500">Career Questionnaire
-                        Discover the career </span> that truly fits your interest and personality </h1>
+                    <h1 className="text-3xl font-extrabold ">Welcome to <span className="text-green-500">CareerCraft Questionnaire.
+                         </span> Discover the career that truly fits your interest and personality </h1>
                     <p className="text-xl font-light"> Please answer the following questions to help us understand your career goals.</p>
 
                     <Button
