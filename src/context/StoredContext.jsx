@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
-import axios from 'axios';
+import  { createContext, useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 import axiosInstance from '../axiosInstance';
+
 
 const StoredContext = createContext();
 
@@ -17,6 +18,7 @@ export const StoredProvider = ({ children }) => {
     const [resources, setResources] = useState([]);
     const [careerDetails, setCareerDetails] = useState("")
     const [resumeRemarks, setResumeRemarks] = useState("");
+    const [resLoading, setResLoading] = useState(false);
 
     // Fetch all questions from backend
     const fetchQuestions = async () => {
@@ -52,10 +54,10 @@ export const StoredProvider = ({ children }) => {
                 console.log('Response from server:', res.data);
                 setAiResponse(res.data.careerSuggestions);
                 setAnswers({}); // Clear answers after submission
-                alert("Response submitted successfully");
+                toast.success("Response submitted successfully");
             }
             else {
-                alert("Please login to submit your answers")
+                toast.error("Please login to submit your answers")
 
                 return res.data;
             }
@@ -80,7 +82,7 @@ export const StoredProvider = ({ children }) => {
                 setCareerId(suggestionObj._id);
                 localStorage.setItem("careerId", suggestionObj._id); // Optional: persist for reloads
             }
-            console.log('Suggestion fetched successfully:', suggestionObj.suggestion);
+           // console.log('Suggestion fetched successfully:', suggestionObj.suggestion);
         } catch (error) {
             console.error('Error fetching suggestion:', error);
         }
@@ -129,8 +131,10 @@ export const StoredProvider = ({ children }) => {
     };
 
     const getResources = async () => {
-        const userId = localStorage.getItem("userId");
-
+        const userId = localStorage.getItem("userId"); 
+        
+        setResLoading(true);
+        resLoading? toast.loading("Loading resources..."): null;
         try {
             const response = await axiosInstance.post('/resources/generate', {
                 userId,
@@ -138,8 +142,10 @@ export const StoredProvider = ({ children }) => {
             }
 
             );
+            setResLoading(false);
             setResources(response.data.resource);
-            console.log('Resources fetched successfully:',response.data.resource);
+            
+           // console.log('Resources fetched successfully:',response.data.resource);
         } catch (error) {
             console.error('Error fetching resources:', error);
         }
@@ -148,6 +154,7 @@ export const StoredProvider = ({ children }) => {
         <StoredContext.Provider value={{
             questions,
             answers,
+            resLoading,
             loading,
             fetchQuestions,
             aiResponse,

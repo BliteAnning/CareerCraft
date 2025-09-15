@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStored } from "../context/StoredContext";
+import toast from "react-hot-toast";
 
 // Improved parser for AI-generated resource text
 function parseLinksText(linksText) {
@@ -80,16 +81,17 @@ function parseLinksText(linksText) {
 }
 
 const Resource = () => {
-    const { getResources, resources } = useStored();
+    const { getResources, resources, resLoading } = useStored();
     const [showVideos, setShowVideos] = useState(false);
+    
 
     useEffect(() => {
-        getResources();
+      getResources();
         // eslint-disable-next-line
     }, []);
 
     if (!resources) {
-        return <div>Loading resources...</div>;
+        return <div>failed to lead resource</div>;
     }
 
     const { links = [], videos = [], files = [] } = resources;
@@ -119,9 +121,7 @@ const Resource = () => {
                     )}
                     {/* Resource cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {cards.length === 0 && (
-                            <div className="col-span-full text-gray-500">No articles or PDFs found.</div>
-                        )}
+                        
                         {cards.map((card, i) => (
                             <div key={i} className="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center">
                                 <img

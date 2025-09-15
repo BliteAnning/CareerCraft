@@ -101,18 +101,18 @@ const Resume = () => {
     };
 
     return (
-        <div className='min-h-screen '>
-            <div className="p-10 flex bg-purple-700 gap-20 ">
-                <div className="w-1/2 justify-center items-center text-white">
-                    <h1 className="font-extrabold text-2xl">GET YOUR RESUME ANALYZED AND ASSESSED NOW BY OUR POWERED AI ASSISTANCE</h1>
+        <div className=' '>
+            <div className="p-10 flex bg-purple-700  ">
+                <div className="w-fit sm:w-1/2 justify-center items-center text-white">
+                    <h1 className="font-extrabold text-sm md:text-2xl">GET YOUR RESUME ANALYZED AND ASSESSED NOW BY OUR POWERED AI ASSISTANCE</h1>
                     <p className="mt-7 text-xl font-light ">Get your resume reviewed by powerful AI assistance and suggest possible areas for improvement to suit your Job requirements.</p>
                     <form
-                        className="mt-10 flex flex-col items-center border rounded-xl py-4 gap-4"
+                        className="mt-10 flex flex-col items-center justify-center border rounded-xl py-4 gap-4"
                         onSubmit={handleSubmit}
                     >
                         <p className="text-lg font-semibold">Upload your resume in PDF format:</p>
                         <label className="cursor-pointer flex-col items-center justify-center gap-5" htmlFor="">
-                            <MdCloudUpload style={{ marginRight: 8, alignItems: 'center' }} size={40} />
+                            
                             <input type="file" name="resume" accept=".pdf" onChange={handleFileChange} className="border rounded-xl cursor-pointer p-3" required />
                         </label>
 
@@ -125,7 +125,7 @@ const Resume = () => {
                     </form>
                 </div>
 
-                <div className="w-1/2">
+                <div className="w-1/2 hidden md:flex justify-center items-center">
                     <img src={visionboard} alt="visionboard" className="object-cover h-96 w-96" />
                 </div>
             </div>

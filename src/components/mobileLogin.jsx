@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useStored } from '../context/StoredContext'
+import { useStored } from "../context/StoredContext";
 import axiosInstance from '../axiosInstance';
 import toast from 'react-hot-toast';
+import { useState, useEffect } from "react";
 
-
-const Login = ({ setShowLogin }) => {
+const MobileLogin = () => {
     const { setToken } = useStored();
+    const [loading, setLoading] = useState(false);
     const url = "/user"
-   
+
 
     const [currState, setCurrState] = useState("Login")
     const [data, setData] = useState({
@@ -17,13 +17,13 @@ const Login = ({ setShowLogin }) => {
         email: "",
         password: ""
     })
-    function parseJwt (token) {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
-}
+    function parseJwt(token) {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    }
 
     const changeHandler = (event) => {
         const name = event.target.name
@@ -36,6 +36,8 @@ const Login = ({ setShowLogin }) => {
 
     const onLogin = async (event) => {
         event.preventDefault()
+        setLoading(true);
+        loading ? toast.loading("Processing...") : null;
         let newUrl = url;
         if (currState === 'Login') {
             newUrl += "/login"
@@ -43,37 +45,38 @@ const Login = ({ setShowLogin }) => {
         else {
             newUrl += "/register"
         }
-        
+
         const response = await axiosInstance.post(newUrl, data)
 
-            if (response.data.success) {
-                setToken(response.data.token);
-                localStorage.setItem("token", response.data.token)
+        if (response.data.success) {
+            setToken(response.data.token);
+            localStorage.setItem("token", response.data.token)
 
-                const decoded = parseJwt(response.data.token);
-                localStorage.setItem("userId", decoded.id)
-                toast.success("Login successful"); // Show success notification
-                console.log("registration/login successful");
-                setTimeout(() => {
+            const decoded = parseJwt(response.data.token);
+            localStorage.setItem("userId", decoded.id)
+            setLoading(false);
+            toast.success("Login successful"); // Show success notification
+            console.log("registration/login successful");
+            setTimeout(() => {
                 window.location.reload();
-                }, 1000)
-                
-                setShowLogin(false)
-            }
-            else {
-                alert(response.data.message);
-            }
-       
+            }, 1000)
+            
+            setShowLogin(false)
+        }
+        else {
+            toast.error(response.data.message);
+        }
+
     }
     return (
-        <div className="z-[2] fixed h-screen place-items-center w-full bg-[rgba(24,22,22,0.5)]">
-            <form action="" className="bg-white  shadow-2xl rounded-2xl max-w-lg w-full p-8" onSubmit={onLogin}>
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className='font-bold text-purple-500'>{currState === 'Login' ? 'Login into your account':'Sign Up to get started with CareerCraft'} </h2>
+        <div className="min-h-screen flex justify-center items-center">
+            <form action="" className="bg-white w-lg p-8" onSubmit={onLogin}>
+                <div className="flex justify-between gap-5 items-center mb-4">
+                    <h2 className='font-bold text-4xl text-purple-500'>{currState === 'Login' ? 'Log in into your account' : 'Sign Up to get started'} </h2>
                     <img onClick={() => setShowLogin(false)} src="" alt="" />
                 </div>
                 <div className="flex flex-col gap-4 mb-4">
-                    
+
                     {currState === "Login" ? <></> : <div className='flex flex-col gap-4'>
                         <input className='border p-2 rounded' name="full_name" onChange={changeHandler} value={data.full_name} type="text" placeholder="Your full name" required />
                         <input className='border p-2 rounded' name="date_of_birth" onChange={changeHandler} value={data.date_of_birth} type="date" placeholder="Your date of birth" required />
@@ -83,7 +86,7 @@ const Login = ({ setShowLogin }) => {
                     <input className='border p-2 rounded' name="email" onChange={changeHandler} value={data.email} type="email" placeholder="Email" required />
                     <input className='border p-2 rounded' name="password" onChange={changeHandler} value={data.password} type="password" placeholder="password" required />
                 </div>
-                <button className='text-white cursor-pointer p-2 rounded-xl border bg-purple-600' type="submit">{currState === "Sign Up" ? "Create Account" : "Login"}</button>
+                <button className='text-white cursor-pointer py-2 px-4 rounded-xl border bg-purple-600' type="submit">{currState === "Sign Up" ? "Create Account" : "Login"}</button>
                 <div className="flex gap-2 items-center mt-4">
                     <input type="checkbox" required />
                     <p>By continuing, I agree to the terms of use and policies</p>
@@ -96,5 +99,4 @@ const Login = ({ setShowLogin }) => {
         </div>
     );
 }
-
-export default Login;
+export default MobileLogin;

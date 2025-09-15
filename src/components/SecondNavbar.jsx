@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router";
 import {Menu, FileQuestion, Home, Book, File, Navigation, Database} from 'lucide-react';
+import toast from "react-hot-toast";
 
 const NavItem = ({ to, children, onClick }) => (
     
@@ -56,7 +57,7 @@ const SecondNavbar = ({showDrawer, setShowDrawer}) => {
                 {!showDrawer && (
                     <button
                         className=" absolute top-25 left-0 z-50 bg-purple-700 text-white p-2 shadow"
-                        onClick={() => userId? setShowDrawer(true): alert("Please sign in to view dashboard")}
+                        onClick={() => userId? setShowDrawer(true): toast.error("Please sign in to view dashboard")}
                         aria-label="Show menu"
                         style={{ marginLeft: 0 }}
                     >

@@ -13,18 +13,19 @@ import Roadmap from './pages/roadmap'
 import Resume from './pages/resume'
 import Resource from './pages/resources'
 import Contact from './pages/contact'
-import { ToastBar, Toaster } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
+import MobileLogin from './components/mobileLogin'
 import Quiz from './pages/quiz'
 import Qresults from './pages/Qresults'
 
 function App() {
-  const [showLogin, setShowLogin] = useState(false)
+  //const [showLogin, setShowLogin] = useState(false)
   const [showDrawer, setShowDrawer] = useState(false)
 
   return (
     <>
-      <Navbar setShowLogin={setShowLogin} showLogin={showLogin} setShowDrawer={setShowDrawer} showDrawer={showDrawer}/>
-      {showLogin ? <Login setShowLogin={setShowLogin} /> : null}
+      <Navbar  setShowDrawer={setShowDrawer} showDrawer={showDrawer}/>
+      {/*showLogin ? <Login setShowLogin={setShowLogin} /> : null*/}
       <SecondNavbar showDrawer={showDrawer} setShowDrawer={setShowDrawer} />
       <Routes>
         <Route path="/" showDrawer={showDrawer} setShowDrawer={setShowDrawer} element={<Landing />} />
@@ -35,8 +36,10 @@ function App() {
         <Route path="/resume" showDrawer={showDrawer} setShowDrawer={setShowDrawer} element={<Resume />} />
         <Route path="/resources" showDrawer={showDrawer} setShowDrawer={setShowDrawer} element={<Resource />} />
         <Route path="/contact" element={<Contact/>}/>
+        <Route path='/login' element={<MobileLogin/>}/>
         <Route path='/quiz' element={<Quiz/>}/>
         <Route path='/qresult' element={<Qresults/>}/>
+
       </Routes>
       <Footer />
       <Toaster/>

@@ -18,7 +18,7 @@ const Contact = () => {
                 <li><a href="https://www.linkedin.com/in/bright-anning-3779a9262" target="_blank" rel="noopener noreferrer" className='hover:text-purple-600 hover:underline'>LinkedIn</a></li>
                 <li></li>
             </ul>
-            <p>Or visit my <a href="" className='hover:font-light text-purple-600 hover:underline'>personal site</a> for more information and enquiries </p>
+            <p>Or visit my <a href="https://bliteqood.onrender.com/" target="_blank" rel="noopener noreferrer"  className='hover:font-light text-purple-600 hover:underline'>personal site</a> for more information and enquiries </p>
           
         </div>
     );

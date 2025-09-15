@@ -1,29 +1,40 @@
 import { useState, useEffect } from "react";
 import axiosInstance from "../axiosInstance";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
+
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const userId = localStorage.getItem("userId");
   const careerId = localStorage.getItem("careerId");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [quizId, setQuizId] = useState(() => localStorage.getItem("quizId") || "");
+  
 
   useEffect(() => {
     const fetchQuiz = async () => {
+      setLoading(true);
+      
+      toast.loading("Loading quiz...");
       
       if (!userId) {
-        alert("Log in to access the quiz.");
+        toast.error("Log in to access the quiz.");
+
         return;
       }
       try {
         const res = await axiosInstance.post('/quiz/generatequiz', { userId, careerId });
         if (res.data.success) {
+          setLoading(false);
+          toast.dismiss();
           setQuestions(res.data.quiz.questions);
           setAnswers(Array(res.data.quiz.questions.length).fill(""));
           localStorage.setItem("quizId", res.data.quiz._id);
           setQuizId(res.data.quiz._id);
+          
         }
       } catch (error) {
         console.log(error);
