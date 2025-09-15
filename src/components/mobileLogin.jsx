@@ -2,11 +2,13 @@ import { useStored } from "../context/StoredContext";
 import axiosInstance from '../axiosInstance';
 import toast from 'react-hot-toast';
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const MobileLogin = () => {
     const { setToken } = useStored();
     const [loading, setLoading] = useState(false);
     const url = "/user"
+    const navigate = useNavigate();
 
 
     const [currState, setCurrState] = useState("Login")
@@ -56,6 +58,7 @@ const MobileLogin = () => {
             localStorage.setItem("userId", decoded.id)
             setLoading(false);
             toast.success("Login successful"); // Show success notification
+            navigate("/");
             console.log("registration/login successful");
             setTimeout(() => {
                 window.location.reload();
