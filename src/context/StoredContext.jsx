@@ -1,4 +1,4 @@
-import  { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import axiosInstance from '../axiosInstance';
 
@@ -76,13 +76,13 @@ export const StoredProvider = ({ children }) => {
                 params: { userId }
             });
             const suggestionObj = response.data.suggestion;
-           ;
+            ;
             if (suggestionObj) {
                 setMyCareer(suggestionObj.suggestion);
                 setCareerId(suggestionObj._id);
                 localStorage.setItem("careerId", suggestionObj._id); // Optional: persist for reloads
             }
-           // console.log('Suggestion fetched successfully:', suggestionObj.suggestion);
+            // console.log('Suggestion fetched successfully:', suggestionObj.suggestion);
         } catch (error) {
             console.error('Error fetching suggestion:', error);
         }
@@ -131,10 +131,10 @@ export const StoredProvider = ({ children }) => {
     };
 
     const getResources = async () => {
-        const userId = localStorage.getItem("userId"); 
-        
+        const userId = localStorage.getItem("userId");
+
         setResLoading(true);
-        resLoading? toast.loading("Loading resources..."): null;
+        const toastId = toast.loading('Loading resources...');
         try {
             const response = await axiosInstance.post('/resources/generate', {
                 userId,
@@ -142,19 +142,23 @@ export const StoredProvider = ({ children }) => {
             }
 
             );
-            setResLoading(false);
-            setResources(response.data.resource);
             
-           // console.log('Resources fetched successfully:',response.data.resource);
+            toast.success("resource loaded", {id:toastId})
+            setResources(response.data.resource);
+
+            // console.log('Resources fetched successfully:',response.data.resource);
         } catch (error) {
             console.error('Error fetching resources:', error);
+            toast.error("Error getting resources", {id: toastId})
+            
+        }finally{
+            setResLoading(false);
         }
     }
     return (
         <StoredContext.Provider value={{
             questions,
             answers,
-            resLoading,
             loading,
             fetchQuestions,
             aiResponse,

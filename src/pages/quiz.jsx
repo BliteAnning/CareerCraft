@@ -10,16 +10,13 @@ const Quiz = () => {
   const userId = localStorage.getItem("userId");
   const careerId = localStorage.getItem("careerId");
   const [loading, setLoading] = useState(false);
+  const [showButton, setShowButton] = useState(true)
   const navigate = useNavigate();
   const [quizId, setQuizId] = useState(() => localStorage.getItem("quizId") || "");
   
-
-  useEffect(() => {
-    const fetchQuiz = async () => {
+  const fetchQuiz = async () => {
       setLoading(true);
-      
-      toast.loading("Loading quiz...");
-      
+      const toastId = toast.loading('Loading quiz...')
       if (!userId) {
         toast.error("Log in to access the quiz.");
 
@@ -28,8 +25,9 @@ const Quiz = () => {
       try {
         const res = await axiosInstance.post('/quiz/generatequiz', { userId, careerId });
         if (res.data.success) {
-          setLoading(false);
-          toast.dismiss();
+          setShowButton(false)
+          toast.success("Quiz loaded!", { id: toastId})
+           
           setQuestions(res.data.quiz.questions);
           setAnswers(Array(res.data.quiz.questions.length).fill(""));
           localStorage.setItem("quizId", res.data.quiz._id);
@@ -38,10 +36,10 @@ const Quiz = () => {
         }
       } catch (error) {
         console.log(error);
+        toast.error("Error loading quiz.", { id: toastId})
       }
     };
-    fetchQuiz();
-  }, []);
+
 
   const handleOptionChange = (qIdx, option) => {
     const newAnswers = [...answers];
@@ -54,9 +52,9 @@ const Quiz = () => {
     
     const submitQuiz = await axiosInstance.post('/quiz/submitquiz', {userId, quizId, answers});
     if (submitQuiz.data.success) {
-      alert("Quiz submitted successfully!");
+      toast.success("Quiz submitted successfully!");
     } else {
-      alert("Error submitting quiz.");
+      toast.error("Error submitting quiz.");
     }
     setSubmitted(true);
     
@@ -67,6 +65,10 @@ const Quiz = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-700 to-white flex flex-col items-center justify-center py-10">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl">
         <h1 className="text-3xl font-bold text-purple-700 mb-6 text-center">Career Quiz</h1>
+        {showButton  ?
+        (<button className="p-3 w-full bg-purple-600 text-white rounded-lg hover:bg-purple-300" disabled={loading} onClick={()=> {fetchQuiz()}}>Generate quiz</button>):
+        null
+        }
         {careerId? <form onSubmit={handleSubmit}>
           {questions.map((q, idx) => (
             <div key={idx} className="mb-8">
@@ -99,7 +101,7 @@ const Quiz = () => {
           {!submitted ? (
             <button
               type="submit"
-              className="w-full py-3 mt-4 bg-purple-700 text-white font-bold rounded-lg hover:bg-purple-800 transition"
+              className={`w-full py-3 mt-4 ${showButton? "hidden": null} bg-purple-700 text-white font-bold rounded-lg hover:bg-purple-800 transition`}
             >
               Submit Answers
             </button>

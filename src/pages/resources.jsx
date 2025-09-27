@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useStored } from "../context/StoredContext";
 import toast from "react-hot-toast";
 
@@ -81,17 +81,20 @@ function parseLinksText(linksText) {
 }
 
 const Resource = () => {
-    const { getResources, resources, resLoading } = useStored();
+    const { getResources, resources } = useStored();
     const [showVideos, setShowVideos] = useState(false);
-    
+    const calledRef = useRef(false);
 
     useEffect(() => {
-      getResources();
+        if (!calledRef.current) {
+            getResources();
+            calledRef.current = true;
+        }
         // eslint-disable-next-line
     }, []);
 
     if (!resources) {
-        return <div>failed to lead resource</div>;
+        return <div>failed to load resource</div>;
     }
 
     const { links = [], videos = [], files = [] } = resources;
@@ -116,12 +119,12 @@ const Resource = () => {
                 <div>
                     {/* Introductory statement */}
                     {intro && (
-                        <div className="mb-6 text-gray-700 text-lg">Explore Resources related to your chosen career. Get access to all Articles, pdf textbooks and Videos related to your Career. 
-                        Your Career journey STARTS NOW</div>
+                        <div className="mb-6 text-gray-700 text-lg">Explore Resources related to your chosen career. Get access to all Articles, pdf textbooks and Videos related to your Career.
+                            Your Career journey STARTS NOW</div>
                     )}
                     {/* Resource cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
+
                         {cards.map((card, i) => (
                             <div key={i} className="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center">
                                 <img

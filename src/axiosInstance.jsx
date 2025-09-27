@@ -9,6 +9,7 @@ const axiosInstance = axios.create({
     },
 });
 
+//https://careercraft-server.onrender.com
 // Add a request interceptor to include Authorization token if available
 axiosInstance.interceptors.request.use(
     (config) => {

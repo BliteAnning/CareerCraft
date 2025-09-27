@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const MobileLogin = () => {
-    const { setToken } = useStored();
+    const { setToken, getSuggestion } = useStored();
     const [loading, setLoading] = useState(false);
     const url = "/user"
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ const MobileLogin = () => {
     const onLogin = async (event) => {
         event.preventDefault()
         setLoading(true);
-        loading ? toast.loading("Processing...") : null;
+        const toastId = toast.loading('Logging in...');
         let newUrl = url;
         if (currState === 'Login') {
             newUrl += "/login"
@@ -53,18 +53,19 @@ const MobileLogin = () => {
         if (response.data.success) {
             setToken(response.data.token);
             localStorage.setItem("token", response.data.token)
-
+            
             const decoded = parseJwt(response.data.token);
             localStorage.setItem("userId", decoded.id)
-            setLoading(false);
-            toast.success("Login successful"); // Show success notification
-            navigate("/");
-            console.log("registration/login successful");
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000)
+            toast.success("login successful", { id: toastId}),
             
-            setShowLogin(false)
+            navigate("/");
+            getSuggestion();
+            console.log("registration/login successful");
+           /* setTimeout(() => {
+                window.location.reload();
+            }, 1000)*/
+
+           setLoading(false);
         }
         else {
             toast.error(response.data.message);
@@ -89,7 +90,7 @@ const MobileLogin = () => {
                     <input className='border p-2 rounded' name="email" onChange={changeHandler} value={data.email} type="email" placeholder="Email" required />
                     <input className='border p-2 rounded' name="password" onChange={changeHandler} value={data.password} type="password" placeholder="password" required />
                 </div>
-                <button className='text-white cursor-pointer py-2 px-4 rounded-xl border bg-purple-600' type="submit">{currState === "Sign Up" ? "Create Account" : "Login"}</button>
+                <button className='text-white cursor-pointer py-2 px-4 rounded-xl border bg-purple-600' type="submit" disabled={loading}>{currState === "Sign Up" ? "Create Account" : "Login"}</button>
                 <div className="flex gap-2 items-center mt-4">
                     <input type="checkbox" required />
                     <p>By continuing, I agree to the terms of use and policies</p>
