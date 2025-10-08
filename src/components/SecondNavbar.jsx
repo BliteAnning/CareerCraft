@@ -25,14 +25,14 @@ const SecondNavbar = ({showDrawer, setShowDrawer}) => {
     // Drawer content
     const drawer = (
         <div className="w-64 h-full bg-black text-white shadow-lg flex flex-col pt-8 relative">
-            {/* Hide button for desktop */}
+            {/* Hide button for desktop 
             <button
                 className=" md:block absolute top-4 right-4 text-white z-10"
-                onClick={() => setShowDrawer(false)}
+                onClick={() => userId ? setShowDrawer(!showDrawer):"Please login to view dashboard"}
                 aria-label="Hide menu"
             >
                 <Menu/>
-            </button>
+            </button>*/}
             <NavItem to="/" onClick={() => setShowDrawer(false)}> <div className="flex gap-5" ><Home/><p>Home</p></div></NavItem>
             <NavItem to="/questionnaire" onClick={() => setShowDrawer(false)} ><div className="flex gap-5" ><FileQuestion/><p>Questionnaire</p></div></NavItem>
             <NavItem to="/quiz" onClick={() => setShowDrawer(false)} ><div className="flex gap-5" ><Book/><p>Career Quiz</p></div></NavItem>
@@ -57,7 +57,7 @@ const SecondNavbar = ({showDrawer, setShowDrawer}) => {
                 {!showDrawer && (
                     <button
                         className=" absolute top-25 left-0 z-50 bg-purple-700 text-white p-2 shadow"
-                        onClick={() => userId? setShowDrawer(true): toast.error("Please sign in to view dashboard")}
+                        onClick={() => userId? setShowDrawer(!showDrawer): toast.error("Please sign in to view dashboard")}
                         aria-label="Show menu"
                         style={{ marginLeft: 0 }}
                     >

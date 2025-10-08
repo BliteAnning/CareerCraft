@@ -57,7 +57,9 @@ const MobileLogin = () => {
             const decoded = parseJwt(response.data.token);
             localStorage.setItem("userId", decoded.id)
             toast.success("login successful", { id: toastId}),
-            
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000)
             navigate("/");
             getSuggestion();
             console.log("registration/login successful");

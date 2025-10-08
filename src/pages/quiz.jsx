@@ -88,6 +88,7 @@ const Quiz = () => {
                       name={`question-${idx}`}
                       value={option}
                       checked={answers[idx] === option}
+                      required
                       onChange={() => handleOptionChange(idx, option)}
                       className="mr-3 accent-purple-700"
                       disabled={submitted}
