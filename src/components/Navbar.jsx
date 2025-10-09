@@ -9,14 +9,15 @@ const Navbar = ({ setShowLogin, showLogin, setShowDrawer, showDrawer }) => {
     const userId = localStorage.getItem("userId")
     const navigate = useNavigate();
     const logout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("careerId");
-        localStorage.removeItem("quizId");
-        setToken("");
-        window.location.reload();
-        window.location.href("/")
-    }
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("careerId");
+    localStorage.removeItem("quizId");
+    setToken("");
+
+    // ✅ Smooth client-side navigation
+    navigate("/");
+  };
    
 
     return (
