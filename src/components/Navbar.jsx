@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 const Navbar = ({ setShowLogin, showLogin, setShowDrawer, showDrawer }) => {
     const { token, setToken } = useStored();
     const userId = localStorage.getItem("userId")
+    const navigate = useNavigate();
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
@@ -14,8 +15,9 @@ const Navbar = ({ setShowLogin, showLogin, setShowDrawer, showDrawer }) => {
         localStorage.removeItem("quizId");
         setToken("");
         window.location.reload();
+        window.location.href("/")
     }
-    const navigate = useNavigate();
+   
 
     return (
         <nav className="p-4 flex bg-[#000000] justify-between items-center">
